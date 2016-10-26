@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Student.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mockito-exercise</a> &gt; <a href="index.source.html" class="el_package">mockito.exercise.entity</a> &gt; <span class="el_source">Student.java</span></div><h1>Student.java</h1><pre class="source lang-java linenums">package mockito.exercise.entity;
+
+import mockito.exercise.Exception.CourseRequestException;
+import mockito.exercise.Exception.NoTutorException;
+import mockito.exercise.Exception.TutorRequestException;
+import mockito.exercise.Interface.DataRetriever;
+import mockito.exercise.Interface.MailSender;
+import org.apache.log4j.Logger;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
+/**
+ * Created by federicoschipani on 19/10/2016.
+ */
+public class Student {
+
+<span class="fc" id="L18">    private final static Logger LOGGER = Logger.getLogger(Student.class);</span>
+
+
+    private String ID;
+    private String name;
+    private String surname;
+    private String mail;
+    private String tutorID;
+
+    private DataRetriever dataRetriever;
+    private MailSender mailSender;
+
+
+<span class="fc" id="L31">    public Student(String id, String name, String surname, String mail, DataRetriever dataRetriever, MailSender mailSender) {</span>
+<span class="fc" id="L32">        this.ID = id;</span>
+<span class="fc" id="L33">        this.name = name;</span>
+<span class="fc" id="L34">        this.surname = surname;</span>
+<span class="fc" id="L35">        this.mail = mail;</span>
+<span class="fc" id="L36">        this.dataRetriever = dataRetriever;</span>
+<span class="fc" id="L37">        this.mailSender = mailSender;</span>
+<span class="fc" id="L38">    }</span>
+
+<span class="fc" id="L40">    public Student(String ID, String name, String surname, String mail) {</span>
+<span class="fc" id="L41">        this.ID = ID;</span>
+<span class="fc" id="L42">        this.name = name;</span>
+<span class="fc" id="L43">        this.surname = surname;</span>
+<span class="fc" id="L44">        this.mail = mail;</span>
+<span class="fc" id="L45">    }</span>
+
+    public String getID() {
+<span class="fc" id="L48">        return ID;</span>
+    }
+
+    public String getName() {
+<span class="fc" id="L52">        return name;</span>
+    }
+
+    public String getSurname() {
+<span class="fc" id="L56">        return surname;</span>
+    }
+
+    public String getMail() {
+<span class="fc" id="L60">        return mail;</span>
+    }
+
+    public String getTutorID() {
+<span class="fc" id="L64">        return tutorID;</span>
+    }
+
+
+    public void doTutorRequest(String teacherID) throws TutorRequestException {
+
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if (this.getTutorID() != null) {</span>
+<span class="nc" id="L71">            throw new TutorRequestException(&quot;Lo studente ha gia' un tutor&quot;);</span>
+        }
+
+        try {
+<span class="fc" id="L75">            dataRetriever.getTutorRequestByStudentID(this.getID()).get();</span>
+<span class="fc" id="L76">            throw new TutorRequestException(&quot;Lo studente ha una richiesta gia presente&quot;);</span>
+<span class="fc" id="L77">        } catch (NoSuchElementException e) {</span>
+<span class="fc" id="L78">            TutorRequest tr = new TutorRequest(this.ID, teacherID);</span>
+<span class="fc" id="L79">            Teacher teacher = dataRetriever.getTeacherByID(teacherID).get();</span>
+<span class="fc" id="L80">            mailSender.sendMail(this.getMail(), teacher.getMail(), &quot;Tutor Request&quot;);</span>
+<span class="fc" id="L81">            dataRetriever.persistTutorRequest(tr);</span>
+
+        }
+
+<span class="fc" id="L85">    }</span>
+
+    public void doCourseRequest(String courseID) throws CourseRequestException{
+        Optional&lt;Course&gt; courseOptional;
+        try {
+<span class="fc" id="L90">            dataRetriever.getCourseRequestByStudentID(this.getID()).get();</span>
+<span class="fc" id="L91">            throw new CourseRequestException(&quot;Lo studente ha gia effettuato una richiesta per un corso&quot;);</span>
+<span class="fc" id="L92">        } catch (NoSuchElementException e) {</span>
+<span class="fc" id="L93">            courseOptional = dataRetriever.getCourseByID(courseID);</span>
+        }
+        try {
+<span class="fc" id="L96">            Course course = courseOptional.get();</span>
+<span class="fc" id="L97">            CourseRequest courseRequest = new CourseRequest(this.getID(), course.getID());</span>
+<span class="fc" id="L98">            dataRetriever.persistCourseRequest(courseRequest);</span>
+<span class="fc" id="L99">        } catch (NoSuchElementException e) {</span>
+<span class="fc" id="L100">            LOGGER.error(&quot;IL CORSO A CUI E' STATA FATTA RICHIESTA NON ESISTE&quot;, e);</span>
+<span class="fc" id="L101">        }</span>
+<span class="fc" id="L102">    }</span>
+
+    public void sendMailToTutor(String object) throws NoTutorException {
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (this.getTutorID() != null) {</span>
+<span class="fc" id="L106">            String mail = dataRetriever.getTeacherByID(this.getTutorID()).get().getMail();</span>
+<span class="fc" id="L107">            mailSender.sendMail(this.getMail(), mail, object);</span>
+<span class="fc" id="L108">        } else{</span>
+<span class="fc" id="L109">            throw new NoTutorException(&quot;LO STUDENTE NON HA TUTOR&quot;);</span>
+        }
+<span class="fc" id="L111">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,1 +1,12 @@
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/entity/Teacher.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/entity/TutorRequest.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/Exception/TooMuchTutoredStudentException.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/entity/Course.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/entity/CourseAttendance.java
 /Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/entity/Student.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/Interface/MailSender.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/entity/CourseRequest.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/Interface/DataRetriever.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/Exception/CourseRequestException.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/Exception/NoTutorException.java
+/Users/federicoschipani/Desktop/EsercitazioneMockito/src/main/java/mockito/exercise/Exception/TutorRequestException.java

@@ -17,6 +17,7 @@ public class Student {
 
     private final static Logger LOGGER = Logger.getLogger(Student.class);
 
+
     private String ID;
     private String name;
     private String surname;
@@ -34,6 +35,13 @@ public class Student {
         this.mail = mail;
         this.dataRetriever = dataRetriever;
         this.mailSender = mailSender;
+    }
+
+    public Student(String ID, String name, String surname, String mail) {
+        this.ID = ID;
+        this.name = name;
+        this.surname = surname;
+        this.mail = mail;
     }
 
     public String getID() {
@@ -59,7 +67,7 @@ public class Student {
 
     public void doTutorRequest(String teacherID) throws TutorRequestException {
 
-        if (this.tutorID != null) {
+        if (this.getTutorID() != null) {
             throw new TutorRequestException("Lo studente ha gia' un tutor");
         }
 

@@ -9,20 +9,12 @@ import mockito.exercise.Interface.DataRetriever;
 import mockito.exercise.Interface.MailSender;
 import org.junit.Test;
 import org.junit.Before;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.configuration.MockAnnotationProcessor;
 
-import java.security.cert.PKIXRevocationChecker;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class StudentTest {
@@ -59,7 +51,7 @@ public class StudentTest {
         String id = "teacher1";
         Student student1 = spy(student);
         doReturn(id).when(student1).getTutorID();
-        Teacher teacher = new Teacher(id, "name", "surname", teacherMail);
+        Teacher teacher = new Teacher(id, "name", "surname", teacherMail, dataRetriever, mailSender);
         when(dataRetriever.getTeacherByID(id)).thenReturn(Optional.of(teacher));
         student1.sendMailToTutor(object);
         verify(mailSender, times(1)).sendMail(student.getMail(), teacherMail, object);
@@ -73,7 +65,7 @@ public class StudentTest {
         Optional<CourseRequest> courseRequestOptional = Optional.of(new CourseRequest(courseID, this.student.getID()));
         when(dataRetriever.getCourseRequestByStudentID(student.getID())).thenReturn(courseRequestOptional);
         when(dataRetriever.getCourseByID(courseID)).
-                thenReturn(Optional.of(new Course(courseID,"name","mail", "teacher")));
+                thenReturn(Optional.of(new Course(courseID,"name","mail", "teacher", dataRetriever, mailSender)));
         student.doCourseRequest(courseID);
     }
 
@@ -91,7 +83,7 @@ public class StudentTest {
         String courseID = "Course1";
         when(dataRetriever.getCourseRequestByStudentID(student.getID())).thenReturn(Optional.empty());
         when(dataRetriever.getCourseByID(courseID)).
-                thenReturn(Optional.of(new Course(courseID,"name","mail", "teacher")));
+                thenReturn(Optional.of(new Course(courseID,"name","mail", "teacher", dataRetriever, mailSender)));
 
         student.doCourseRequest(courseID);
         verify(dataRetriever, times(1)).persistCourseRequest(new CourseRequest(student.getID(), courseID));
@@ -102,7 +94,7 @@ public class StudentTest {
     public void testTutorRequestBase() throws Exception {
         when(dataRetriever.getTutorRequestByStudentID(student.getID())).thenReturn(Optional.empty());
         when(dataRetriever.getTeacherByID("teacher1")).
-                thenReturn(Optional.of(new Teacher("teacher1", "Pierluigi", "Crescenzi", "pi@lu.com")));
+                thenReturn(Optional.of(new Teacher("teacher1", "Pierluigi", "Crescenzi", "pi@lu.com", dataRetriever, mailSender)));
 
         student.doTutorRequest("teacher1");
         verify(dataRetriever, times(1)).getTutorRequestByStudentID(student.getID());

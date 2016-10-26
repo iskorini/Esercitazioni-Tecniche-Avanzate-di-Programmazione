@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CourseRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mockito-exercise</a> &gt; <a href="index.source.html" class="el_package">mockito.exercise.entity</a> &gt; <span class="el_source">CourseRequest.java</span></div><h1>CourseRequest.java</h1><pre class="source lang-java linenums">package mockito.exercise.entity;
+
+import java.util.Objects;
+
+/**
+ * Created by federicoschipani on 19/10/2016.
+ */
+public class CourseRequest {
+
+
+    private final String courseID;
+    private final String studentID;
+
+<span class="fc" id="L14">    public CourseRequest(String studentID, String courseID) {</span>
+<span class="fc" id="L15">        this.studentID = studentID;</span>
+<span class="fc" id="L16">        this.courseID = courseID;</span>
+<span class="fc" id="L17">    }</span>
+
+    public String getCourseID() {
+<span class="fc" id="L20">        return courseID;</span>
+    }
+
+    public String getStudentID() {
+<span class="fc" id="L24">        return studentID;</span>
+    }
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if (o instanceof CourseRequest) {</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">            return this.getCourseID().equals(((CourseRequest) o).getCourseID()) &amp;&amp;</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">                    this.getStudentID().equals(((CourseRequest) o).getStudentID());</span>
+        } else {
+<span class="nc" id="L33">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

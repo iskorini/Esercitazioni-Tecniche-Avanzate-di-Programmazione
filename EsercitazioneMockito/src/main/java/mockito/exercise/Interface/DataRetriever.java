@@ -27,4 +27,8 @@ public interface DataRetriever {
     boolean persistCourseRequest(CourseRequest courseRequest);
 
     Optional<Course> getCourseByID(String ID);
+
+    Optional<Student> getStudentByID(String studentID);
+
+    boolean persistCourseAttendance(CourseAttendance courseAttendance);
 }
